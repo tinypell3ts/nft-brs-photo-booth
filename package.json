@@ -1,5 +1,5 @@
 {
-  "name": "nft-swipe",
+  "name": "open-format-factory-starter",
   "private": true,
   "scripts": {
     "dev": "next dev",
