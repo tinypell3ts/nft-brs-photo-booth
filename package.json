@@ -18,6 +18,7 @@
     "next-translate": "^1.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-hook-form": "^7.30.0",
     "zustand": "^3.6.7"
   },
   "devDependencies": {
