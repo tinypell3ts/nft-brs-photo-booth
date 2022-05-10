@@ -40,6 +40,12 @@ This will run the app in the development mode. Open [http://localhost:3000](http
 
 The page will reload if you make edits. You will also see any lint errors in the console.
 
+## Documentation and Support
+
+[Open Format Documentation](https://docs.openformat.simpleweb.co.uk/)
+
+Have a question? Join us on [Discord](https://discord.gg/vmQMTcPmGU)
+
 ## Learn More
 
 This project was created using [NextJS](https://nextjs.org/).
