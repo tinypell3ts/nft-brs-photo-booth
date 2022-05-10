@@ -8,13 +8,13 @@ These instructions will give you a copy of the project up and running on your lo
 
 ## Installation
 
-Install JavaScript dependencies.
+Install JavaScript dependencies
 
 ```
 yarn install OR npm install
 ```
 
-Setup your environment variables.
+Setup your environment variables
 
 ```
 cp .env.local.example .env.local
@@ -22,11 +22,11 @@ cp .env.local.example .env.local
 
 #### Environment variable configuration
 
-| Variable                        | Description                                                                                                                                                                                             |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_CHAIN_ID`          | This is the chain id of the network you want to connect to. Open Format current works on Polygon Mainnet (137) and Polygon Mumbai (80001)                                                               |
-| `NEXT_PUBLIC_NFT_STORAGE_TOKEN` | This starter uses nft.storage to interact with IPFS. You can use any IPFS storage provider here. [Get an API Key](https://nft.storage/docs/#get-an-api-token)                                           |
-| `NEXT_PUBLIC_FACTORY_ID`        | This is used for filtering the subgraph to only show releases from your Factory frontend. This can be any string value, but for uniqueness, we recommend using [UUIDv4](https://www.uuidgenerator.net/) |
+| Variable                        | Description                                                                                                                                                                                                     |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_CHAIN_ID`          | This is the chain id of the network you want to connect to. Open Format currently supports Polygon Mainnet (137) and Polygon Mumbai (80001)                                                                     |
+| `NEXT_PUBLIC_NFT_STORAGE_TOKEN` | This starter uses nft.storage to interact with IPFS. You can use any IPFS storage provider. [Get an API Key](https://nft.storage/docs/#get-an-api-token)                                                        |
+| `NEXT_PUBLIC_FACTORY_ID`        | This is used for filtering the subgraph to only show tokens created in specific factory frontend. This can be any string value, but for uniqueness, we recommend using [UUIDv4](https://www.uuidgenerator.net/) |
 
 ## Development
 
@@ -48,5 +48,5 @@ Find out more about the packages used in this project:
 
 - [ethers](https://docs.ethers.io/v5/)
 - [TailwindCSS](https://tailwindcss.com)
-- [OnboardJS](https://stripe.com/docs)
+- [OnboardJS](https://docs.blocknative.com/onboard)
 - [nft.storage](https://nft.storage/)
