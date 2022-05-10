@@ -1,10 +1,13 @@
-import { addNetwork, BLOCK_EXPLORER_URL, NETWORK_ID } from "./network";
+import { buildMetadata, uploadToIPFS } from "./ipfs";
+import { BLOCK_EXPLORER_URL, getNetwork, NETWORK_ID } from "./network";
 import { readyToTransact, switchChain } from "./wallet";
 
 export {
-  addNetwork,
+  buildMetadata,
+  getNetwork,
   NETWORK_ID,
   BLOCK_EXPLORER_URL,
   readyToTransact,
   switchChain,
+  uploadToIPFS,
 };

@@ -1,20 +1,25 @@
 import injectedModule from "@web3-onboard/injected-wallets";
 import { init } from "@web3-onboard/react";
 import walletConnectModule from "@web3-onboard/walletconnect";
-
-const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL;
+import { getNetwork } from "../helpers";
 
 const walletConnect = walletConnectModule();
 const injected = injectedModule();
+
+// Get the chain_id from .env.local
+const NETWORK_ID = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID, 10);
+
+// Fetch the chain information based on the chain_id;
+const network = getNetwork(NETWORK_ID);
 
 export default init({
   wallets: [injected, walletConnect],
   chains: [
     {
-      id: "0x13881",
-      token: "MATIC",
-      label: "Polygon Mumbai",
-      rpcUrl: RPC_URL,
+      id: network.chainId,
+      token: network.nativeCurrency.symbol,
+      label: network.chainName,
+      rpcUrl: network.rpcUrl,
     },
   ],
   appMetadata: {

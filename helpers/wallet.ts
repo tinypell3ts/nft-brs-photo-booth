@@ -3,13 +3,16 @@ import type {
   SetChainOptions,
   WalletState,
 } from "@web3-onboard/core";
+import { ethers } from "ethers";
 
 async function readyToTransact(
   wallet: WalletState,
   connect: (options: ConnectOptions) => Promise<void>,
   setChain: (options: SetChainOptions) => Promise<void>
 ) {
-  const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
+  const CHAIN_ID = ethers.utils.hexValue(
+    parseInt(process.env.NEXT_PUBLIC_CHAIN_ID)
+  );
   if (!wallet) {
     const walletSelected = await connect({});
     if (!Boolean(walletSelected)) return false;

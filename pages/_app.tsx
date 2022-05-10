@@ -2,11 +2,18 @@ import type { OnboardAPI } from "@web3-onboard/core";
 import { useConnectWallet, useWallets } from "@web3-onboard/react";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { Header } from "../components";
 import { initOnboard } from "../services";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  /**
+   * @dev We use Onboard (https://docs.blocknative.com/onboard) to handle wallet (e.g. Metamask)
+   * interactions. We store the connectedWallets in localStorage so the user doesn't need
+   * to reconnect everytime. Most of the code on this page is handling this wallet connectivity.
+   * Onboard can be swapped out for any other packages/code to handle wallet interactions.
+   */
   const [{ wallet }, connect] = useConnectWallet();
   const connectedWallets = useWallets();
   const [onboard, setOnboard] = useState<OnboardAPI>();
@@ -50,6 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <div className="m-4">
       <Header />
       <Component {...pageProps} />
+      <Toaster />
     </div>
   );
 }
