@@ -17,7 +17,8 @@ export async function uploadToIPFS(data: Metadata) {
  * with it's own IPFS CID linking back to the generated metadata.json.
  */
 export function buildMetadata(data: Data): Metadata {
-  const { track_description, track_audio, track_name, track_artwork } = data;
+  const { name, photographer_wallet, photographer_name, image, description } =
+    data;
   // generate a random factory ID
   const FACTORY_ID = process.env.NEXT_PUBLIC_FACTORY_ID;
   // throw error if factory ID is not set or invalid;
@@ -29,15 +30,14 @@ export function buildMetadata(data: Data): Metadata {
 
   // name, description and image are required by nft.storage.
   const metadata = {
-    name: track_name,
-    description: track_description,
-    image: new File([track_artwork[0]], track_artwork[0].name, {
-      type: track_artwork[0].type,
+    name,
+    description: description ?? "NFT:BRS",
+    image: new File([image[0]], image[0].name, {
+      type: image[0].type,
     }),
-    audio: new File([track_audio[0]], track_audio[0].name, {
-      type: track_audio[0].type,
-    }),
-    release_type: "audio",
+    photographer_wallet,
+    ...(photographer_name && { photographer_name }),
+    release_type: "image",
     factory_id: FACTORY_ID,
   };
 

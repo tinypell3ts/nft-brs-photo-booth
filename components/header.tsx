@@ -31,7 +31,7 @@ export default function Header() {
   }
 
   return (
-    <header className="w-full">
+    <header className="fixed right-8 w-full">
       <div className="flex items-center justify-end">
         {wallet?.accounts[0].address ? (
           <>

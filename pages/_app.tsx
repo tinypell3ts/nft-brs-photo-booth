@@ -3,7 +3,7 @@ import { useConnectWallet, useWallets } from "@web3-onboard/react";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import { Header } from "../components";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { initOnboard } from "../services";
 import "../styles/globals.css";
 
@@ -53,12 +53,21 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [wallet]);
 
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: Infinity,
+      },
+    },
+  });
+
   return (
-    <div className="m-4">
-      <Header />
-      <Component {...pageProps} />
-      <Toaster />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div>
+        <Component {...pageProps} />
+        <Toaster />
+      </div>
+    </QueryClientProvider>
   );
 }
 

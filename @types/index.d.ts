@@ -16,18 +16,18 @@ type Wallet = {
 };
 
 type Data = {
-  track_name: string;
-  track_identifier: string;
-  track_description: string;
-  track_artwork: File[];
-  track_audio: File[];
+  name: string;
+  photographer_name: string;
+  photographer_wallet: string;
+  mint_price: number;
+  description: string;
+  image: any;
 };
 
 type Metadata = {
   name: string;
   description: string;
   image: File;
-  audio: File;
   release_type: string;
   factory_id: string;
 };

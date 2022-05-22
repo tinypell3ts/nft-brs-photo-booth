@@ -6,6 +6,10 @@ const BLOCK_EXPLORER_URL = (address: string) => {
   return `${getNetwork(NETWORK_ID).blockExplorerUrl}/address/${address}`;
 };
 
+const TRANSACTION_URL = (tx: string) => {
+  return `${getNetwork(NETWORK_ID).blockExplorerUrl}/tx/${tx}`;
+};
+
 function getNetwork(NETWORK_ID: number): Network {
   switch (NETWORK_ID) {
     case 80001:
@@ -17,4 +21,4 @@ function getNetwork(NETWORK_ID: number): Network {
   }
 }
 
-export { getNetwork, NETWORK_ID, BLOCK_EXPLORER_URL };
+export { getNetwork, NETWORK_ID, BLOCK_EXPLORER_URL, TRANSACTION_URL };

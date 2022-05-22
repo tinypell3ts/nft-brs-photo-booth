@@ -1,86 +1,101 @@
-import { useConnectWallet } from "@web3-onboard/react";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../components";
 
 interface ReleaseFormProps {
   onSubmit: SubmitHandler<Inputs>;
+  setImage: (image: File) => void;
 }
 
 type Inputs = {
-  track_name: string;
-  track_description: string;
-  track_identifier: string;
-  track_artwork: string;
-  track_audio: File;
+  name: string;
+  image: string;
+  photographer: string;
 };
 
-export default function ReleaseForm({ onSubmit }: ReleaseFormProps) {
-  const [{ wallet }] = useConnectWallet();
+export default function ReleaseForm({ onSubmit, setImage }: ReleaseFormProps) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
+  const watchImage = watch("image");
+
+  useEffect(() => {
+    if (watchImage && watchImage.length) {
+      setImage(watchImage[0]);
+    }
+  }, [watchImage]);
+
   const fields = [
     {
-      id: "track_name",
-      label: "Track Name",
-      placeholder: "Track",
+      id: "name",
+      label: "Photo name",
+      placeholder: "",
+      type: "text",
+      required: true,
+    },
+    {
+      id: "description",
+      label: "Photo Description",
+      placeholder: "",
+      type: "text",
+      required: true,
+    },
+    {
+      id: "mint_price",
+      label: "Mint price (in MATIC)",
+      placeholder: "",
+      type: "number",
+      step: "0.001",
+      required: true,
+    },
+    {
+      id: "photographer_name",
+      label: "Photographer name",
+      placeholder: "",
       type: "text",
     },
     {
-      id: "track_description",
-      label: "Track Description",
-      placeholder: "My new release",
+      id: "photographer_wallet",
+      label: "Add wallet address (optional)",
       type: "text",
     },
     {
-      id: "track_identifier",
-      label: "Track Identifier",
-      placeholder: "TRACK",
-      type: "text",
-    },
-    {
-      id: "track_artwork",
-      label: "Upload track artwork",
+      id: "image",
+      label: "Upload Photo",
       type: "file",
       accept: ".png,.jpg,.jpeg",
-    },
-    {
-      id: "track_audio",
-      label: "Upload track audio",
-      type: "file",
-      accept: ".mp3",
+      required: true,
     },
   ];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col space-y-2">
+      <div className="mx-auto flex max-w-2xl flex-col space-y-2">
         {fields.map((field, i) => (
           <div className="flex flex-col" key={i}>
             <label>{field.label}</label>
             <input
-              className={field.type === "text" ? "border-2" : undefined}
+              className={field.type === "file" ? undefined : "border-2"}
               accept={field.accept}
               type={field.type}
               placeholder={field.placeholder}
-              {...register(field.id, { required: true })}
+              step={field.step}
+              {...register(field.id, { required: field.required })}
             />
-            {errors[field.id] && <span>{field.id} is required</span>}
+            {errors[field.id] && (
+              <span className="font-semibold text-red-500">
+                {field.id} is required
+              </span>
+            )}
           </div>
         ))}
 
         <div className="mx-auto">
-          {/* Here we are checking if a wallet is connect and preventing the user 
-          from minting if not. */}
-
-          {wallet?.provider ? (
-            <Button>Create release</Button>
-          ) : (
-            <p>Please connect your wallet to create an NFT.</p>
-          )}
+          <Button>Create NFT</Button>
         </div>
       </div>
     </form>
