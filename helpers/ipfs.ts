@@ -32,9 +32,7 @@ export function buildMetadata(data: Data): Metadata {
   const metadata = {
     name,
     description: description ?? "NFT:BRS",
-    image: new File([image[0]], image[0].name, {
-      type: image[0].type,
-    }),
+    image,
     photographer_wallet,
     ...(photographer_name && { photographer_name }),
     release_type: "image",

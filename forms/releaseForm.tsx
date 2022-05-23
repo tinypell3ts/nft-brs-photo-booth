@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../components";
+import ImageInput from "../components/image-input";
 
 interface ReleaseFormProps {
   onSubmit: SubmitHandler<Inputs>;
@@ -9,7 +10,7 @@ interface ReleaseFormProps {
 
 type Inputs = {
   name: string;
-  image: string;
+  image: File;
   photographer: string;
 };
 
@@ -17,6 +18,8 @@ export default function ReleaseForm({ onSubmit, setImage }: ReleaseFormProps) {
   const {
     register,
     handleSubmit,
+    setValue,
+    trigger,
     watch,
     formState: { errors },
   } = useForm<Inputs>();
@@ -24,10 +27,10 @@ export default function ReleaseForm({ onSubmit, setImage }: ReleaseFormProps) {
   const watchImage = watch("image");
 
   useEffect(() => {
-    if (watchImage && watchImage.length) {
-      setImage(watchImage[0]);
+    if (watchImage) {
+      setImage(watchImage);
     }
-  }, [watchImage]);
+  }, [watchImage, setImage]);
 
   const fields = [
     {
@@ -78,14 +81,22 @@ export default function ReleaseForm({ onSubmit, setImage }: ReleaseFormProps) {
         {fields.map((field, i) => (
           <div className="flex flex-col" key={i}>
             <label>{field.label}</label>
-            <input
-              className={field.type === "file" ? undefined : "border-2"}
-              accept={field.accept}
-              type={field.type}
-              placeholder={field.placeholder}
-              step={field.step}
-              {...register(field.id, { required: field.required })}
-            />
+            {field.type === "file" ? (
+              <ImageInput
+                {...register(field.id, { required: field.required })}
+                setValue={setValue}
+                trigger={trigger}
+              />
+            ) : (
+              <input
+                className={field.type === "file" ? undefined : "border-2"}
+                accept={field.accept}
+                type={field.type}
+                placeholder={field.placeholder}
+                step={field.step}
+                {...register(field.id, { required: field.required })}
+              />
+            )}
             {errors[field.id] && (
               <span className="font-semibold text-red-500">
                 {field.id} is required
