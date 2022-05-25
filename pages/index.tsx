@@ -15,7 +15,7 @@ const Home: NextPage = () => {
     // Descontruct track name and identifier from form data
     const { name, photographer_wallet, mint_price, image } = data;
 
-    setImage(image[0]);
+    setImage(image);
 
     // Pass through the form data to build up the metadata object
     const metadata: Metadata = buildMetadata(data);
