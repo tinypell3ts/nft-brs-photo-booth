@@ -11,31 +11,34 @@ const Home: NextPage = () => {
   const [image, setImage] = useState<File | null>();
   const [transactionHash, setTransactionHash] = useState<string | null>();
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(true);
+  const [isCreatingRelease, setIsCreatingRelease] = useState(false);
   const isComplete = !!transactionHash && image;
 
   async function createRelease(data: Data) {
-    // Descontruct track name and identifier from form data
-    const { name, photographer_wallet, mint_price, image } = data;
-
-    setImage(image);
-
-    // Pass through the form data to build up the metadata object
-    const metadata: Metadata = buildMetadata(data);
-
-    console.log({ metadata });
-
-    // Upload the metadata object returned from the buildMetadata function to IPFS
-    const ipfsData = await toast.promise(uploadToIPFS(metadata), {
-      loading: "Uploading photo...",
-      success: "Photo successfully uploaded",
-      error: "Error uploading photo",
-    });
-
-    console.log({ ipfsData });
-
-    // If the user has connected their wallet, continue.
-
     try {
+      setIsCreatingRelease(true);
+
+      // Descontruct track name and identifier from form data
+      const { name, photographer_wallet, mint_price, image } = data;
+
+      setImage(image);
+
+      // Pass through the form data to build up the metadata object
+      const metadata: Metadata = buildMetadata(data);
+
+      console.log({ metadata });
+
+      // Upload the metadata object returned from the buildMetadata function to IPFS
+      const ipfsData = await toast.promise(uploadToIPFS(metadata), {
+        loading: "Uploading photo...",
+        success: "Photo successfully uploaded",
+        error: "Error uploading photo",
+      });
+
+      console.log({ ipfsData });
+
+      // If the user has connected their wallet, continue.
+
       const params = new URLSearchParams({
         name,
         metadataURL: ipfsData.url,
@@ -46,8 +49,7 @@ const Home: NextPage = () => {
       await toast.promise(
         fetch(`/api/mint?${params}`)
           .then((res) => res.json())
-          .then((res) => setTransactionHash(res.instance.transactionHash))
-          .catch((e) => console.log("e =>", e)),
+          .then((res) => setTransactionHash(res.instance.transactionHash)),
         {
           loading: `minting NFT...`,
           success: "Photo minted! 🚀",
@@ -55,8 +57,13 @@ const Home: NextPage = () => {
         },
         { position: "bottom-right" }
       );
-    } catch (e) {
-      console.log({ e });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Couldn't mint your NFT";
+
+      toast.error(message);
+    } finally {
+      setIsCreatingRelease(false);
     }
   }
 
@@ -82,6 +89,7 @@ const Home: NextPage = () => {
               image={image}
               setImage={setImage}
               createRelease={createRelease}
+              isLoading={isCreatingRelease}
             />
           )}
         </>

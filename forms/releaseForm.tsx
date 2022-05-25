@@ -8,6 +8,7 @@ interface ReleaseFormProps {
   onSubmit: SubmitHandler<Inputs>;
   setImage: (image: File) => void;
   image: File | null | undefined;
+  isLoading: boolean;
 }
 
 export type Inputs = {
@@ -20,6 +21,7 @@ export default function ReleaseForm({
   onSubmit,
   setImage,
   image,
+  isLoading,
 }: ReleaseFormProps) {
   const {
     register,
@@ -104,7 +106,9 @@ export default function ReleaseForm({
           </div>
 
           <div className="mt-8 mb-12 flex justify-center">
-            <Button type="submit">Create NFT</Button>
+            <Button isLoading={isLoading} type="submit">
+              Create NFT
+            </Button>
           </div>
         </div>
       ) : (
