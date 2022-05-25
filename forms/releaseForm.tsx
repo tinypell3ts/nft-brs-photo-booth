@@ -6,6 +6,7 @@ import ImageInput from "../components/image-input";
 interface ReleaseFormProps {
   onSubmit: SubmitHandler<Inputs>;
   setImage: (image: File) => void;
+  image?: File;
 }
 
 type Inputs = {
@@ -14,7 +15,11 @@ type Inputs = {
   photographer: string;
 };
 
-export default function ReleaseForm({ onSubmit, setImage }: ReleaseFormProps) {
+export default function ReleaseForm({
+  onSubmit,
+  setImage,
+  image,
+}: ReleaseFormProps) {
   const {
     register,
     handleSubmit,
@@ -66,49 +71,46 @@ export default function ReleaseForm({ onSubmit, setImage }: ReleaseFormProps) {
       label: "Add wallet address (optional)",
       type: "text",
     },
-    {
-      id: "image",
-      label: "Upload Photo",
-      type: "file",
-      accept: ".png,.jpg,.jpeg",
-      required: true,
-    },
   ];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mx-auto flex max-w-2xl flex-col space-y-2">
-        {fields.map((field, i) => (
-          <div className="flex flex-col" key={i}>
-            <label>{field.label}</label>
-            {field.type === "file" ? (
-              <ImageInput
-                {...register(field.id, { required: field.required })}
-                setValue={setValue}
-                trigger={trigger}
-              />
-            ) : (
-              <input
-                className={field.type === "file" ? undefined : "border-2"}
-                accept={field.accept}
-                type={field.type}
-                placeholder={field.placeholder}
-                step={field.step}
-                {...register(field.id, { required: field.required })}
-              />
-            )}
-            {errors[field.id] && (
-              <span className="font-semibold text-red-500">
-                {field.id} is required
-              </span>
-            )}
-          </div>
-        ))}
+      {image ? (
+        <>
+          <div className="mx-auto flex max-w-2xl flex-col space-y-2">
+            {fields.map((field, i) => (
+              <div className="flex flex-col" key={i}>
+                <label>{field.label}</label>
+                <input
+                  className={field.type === "file" ? undefined : "border-2"}
+                  accept={field.accept}
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  step={field.step}
+                  {...register(field.id, { required: field.required })}
+                />
+                {errors[field.id] && (
+                  <span className="font-semibold text-red-500">
+                    {field.id} is required
+                  </span>
+                )}
+              </div>
+            ))}
 
-        <div className="mx-auto">
-          <Button>Create NFT</Button>
-        </div>
-      </div>
+            <div className="mx-auto">
+              <Button>Create NFT</Button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <ImageInput
+            {...register("image", { required: true })}
+            setValue={setValue}
+            trigger={trigger}
+          />
+        </>
+      )}
     </form>
   );
 }

@@ -29,49 +29,48 @@ const ImageInput = forwardRef<HTMLInputElement, Props>(
     }
 
     return (
-      <>
-        {!isError && (
-          <>
-            <div className="relative h-[320px] w-[320px] bg-black">
-              <Webcam
-                ref={cameraRef}
-                mirrored={true}
-                screenshotFormat="image/png"
-                onUserMedia={() => setIsLoading(false)}
-                onUserMediaError={() => setIsError(true)}
-                videoConstraints={{ width: 320, height: 320 }}
-                minScreenshotWidth={400}
-                minScreenshotHeight={400}
-                width={320}
-                height={320}
-              />
+      <div className="fixed inset-0 z-50 bg-zinc-900">
+        <div className="h-full">
+          <Webcam
+            ref={cameraRef}
+            mirrored={true}
+            screenshotFormat="image/png"
+            onUserMedia={() => setIsLoading(false)}
+            onUserMediaError={() => setIsError(true)}
+            videoConstraints={{
+              width: window.innerWidth,
+              height: window.innerHeight,
+            }}
+            className="h-full w-full object-cover"
+          />
 
-              {isLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black text-white">
-                  Loading...
-                </div>
-              )}
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black text-white">
+              Loading...
             </div>
+          )}
 
-            <Button type="button" onClick={capture}>
-              Capture
-            </Button>
-          </>
-        )}
-
-        <input
-          accept=".png,.jpg,.jpeg"
-          type="file"
-          name={name}
-          onChange={(event) => {
-            const image = event.target.files?.[0];
-            if (image) {
-              setValue(name, image);
-              trigger(name);
-            }
-          }}
-        />
-      </>
+          <div className="absolute bottom-0 left-0">
+            <div className="flex">
+              <Button type="button" onClick={capture}>
+                Capture
+              </Button>
+              <input
+                accept=".png,.jpg,.jpeg"
+                type="file"
+                name={name}
+                onChange={(event) => {
+                  const image = event.target.files?.[0];
+                  if (image) {
+                    setValue(name, image);
+                    trigger(name);
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 );

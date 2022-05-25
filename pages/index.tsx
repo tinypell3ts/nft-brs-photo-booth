@@ -1,10 +1,10 @@
-import { useConnectWallet } from "@web3-onboard/react";
 import { ethers } from "ethers";
 import type { NextPage } from "next";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../components";
-import { ReleaseForm } from "../forms";
+import Capture from "../components/capture";
+import Welcome from "../components/welcome";
 import { buildMetadata, TRANSACTION_URL, uploadToIPFS } from "../helpers";
 
 const Home: NextPage = () => {
@@ -63,9 +63,21 @@ const Home: NextPage = () => {
     setImage(null);
   }
 
+  const [isWelcomeOpen, setIsWelcomeOpen] = useState(true);
+
   return (
     <>
-      {transactionHash ? (
+      <Welcome onClose={() => setIsWelcomeOpen(false)} />
+
+      {!isWelcomeOpen && (
+        <Capture
+          image={image}
+          setImage={setImage}
+          createRelease={createRelease}
+        />
+      )}
+
+      {transactionHash && (
         <div className="flex h-screen flex-col items-center justify-center space-y-5">
           <h3 className="text-5xl font-semibold">Success!</h3>
           {image && <img className="w-96" src={URL.createObjectURL(image)} />}
@@ -80,17 +92,6 @@ const Home: NextPage = () => {
             </a>
             <Button onClick={reset}>Create New NFT</Button>
           </div>
-        </div>
-      ) : (
-        <div className="grid gap-x-5 p-5 md:grid-cols-2">
-          <div>
-            <h1 className="text-2xl font-bold">Create Photo NFT</h1>
-            <ReleaseForm
-              onSubmit={(data) => createRelease(data)}
-              setImage={setImage}
-            />
-          </div>
-          {image && <img className="w-96" src={URL.createObjectURL(image)} />}
         </div>
       )}
     </>
