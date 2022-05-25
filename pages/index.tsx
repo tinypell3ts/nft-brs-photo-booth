@@ -8,8 +8,8 @@ import Welcome from "../components/welcome";
 import { buildMetadata, TRANSACTION_URL, uploadToIPFS } from "../helpers";
 
 const Home: NextPage = () => {
-  const [image, setImage] = useState<File>();
-  const [transactionHash, setTransactionHash] = useState<string>();
+  const [image, setImage] = useState<File | null>();
+  const [transactionHash, setTransactionHash] = useState<string | null>();
 
   async function createRelease(data: Data) {
     // Descontruct track name and identifier from form data
@@ -59,7 +59,7 @@ const Home: NextPage = () => {
   }
 
   function reset() {
-    setTransactionHash(false);
+    setTransactionHash(null);
     setImage(null);
   }
 
