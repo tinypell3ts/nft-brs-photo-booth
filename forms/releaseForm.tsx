@@ -115,7 +115,7 @@ export default function ReleaseForm({
           </div>
 
           <div className="mt-8 mb-12 flex justify-center">
-            <Button>Create NFT</Button>
+            <Button type="submit">Create NFT</Button>
           </div>
         </div>
       ) : (
