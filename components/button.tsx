@@ -4,6 +4,7 @@ interface ButtonProps extends React.ComponentProps<"button"> {
   isLoading?: boolean;
   disabled?: boolean;
 }
+
 export default function Button({
   children,
   onClick,
@@ -14,7 +15,7 @@ export default function Button({
     <button
       onClick={onClick}
       disabled={isLoading}
-      className="flex w-full max-w-min items-center justify-center whitespace-nowrap rounded-md bg-indigo-500 px-5 py-2 text-white shadow-md hover:bg-indigo-800 disabled:cursor-not-allowed disabled:opacity-50"
+      className="flex w-full max-w-min items-center justify-center whitespace-nowrap rounded-md bg-[#2c10fd] px-5 py-2 text-white shadow-md hover:bg-[#e89047] disabled:cursor-not-allowed disabled:opacity-50"
       {...rest}
     >
       {isLoading && (
@@ -39,7 +40,7 @@ export default function Button({
           ></path>
         </svg>
       )}
-      <div className="flex">{children}</div>
+      <div className="flex font-display">{children}</div>
     </button>
   );
 }

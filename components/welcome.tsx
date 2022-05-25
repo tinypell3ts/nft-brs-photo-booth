@@ -1,4 +1,5 @@
 import { Transition } from "@headlessui/react";
+import Image from "next/image";
 import { useState } from "react";
 import Button from "./button";
 
@@ -26,8 +27,30 @@ function Welcome({ onClose }: Props) {
     >
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black p-6 text-white">
         <div>
-          Welcome
-          <Button onClick={close}>Continue</Button>
+          <div className="mb-12 flex justify-center">
+            <Image
+              src="/nftbrs-logo.jpg"
+              width={226}
+              height={137}
+              alt="NFT BRS logo"
+              className="invert"
+            />
+          </div>
+
+          <div className="text-center">
+            <h1 className="font-display text-3xl font-bold text-zinc-200">
+              NFT
+              <br />
+              Photobooth
+            </h1>
+            <p className="font-mono text-zinc-300">
+              Get yourself minted as an NFT to appear in the live gallery!
+            </p>
+
+            <div className="mt-6 flex justify-center">
+              <Button onClick={close}>Continue</Button>
+            </div>
+          </div>
         </div>
       </div>
     </Transition>

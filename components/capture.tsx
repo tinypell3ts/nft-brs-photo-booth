@@ -1,21 +1,23 @@
+import { Dispatch, SetStateAction } from "react";
+import { SubmitHandler } from "react-hook-form";
 import { ReleaseForm } from "../forms";
+import { Inputs } from "../forms/releaseForm";
 
-interface Props {}
+interface Props {
+  createRelease: SubmitHandler<Inputs>;
+  image: File | null | undefined;
+  setImage: Dispatch<SetStateAction<File | null | undefined>>;
+}
 
-function Capture({ createRelease, image, setImage }) {
+function Capture({ createRelease, image, setImage }: Props) {
   return (
-    <div>
-      <div className="grid gap-x-5 p-5 md:grid-cols-2">
-        <div>
-          <h1 className="text-2xl font-bold">Create Photo NFT</h1>
-          <ReleaseForm
-            onSubmit={(data) => createRelease(data)}
-            image={image}
-            setImage={setImage}
-          />
-        </div>
-      </div>
-    </div>
+    <>
+      <ReleaseForm
+        onSubmit={(data) => createRelease(data)}
+        image={image}
+        setImage={setImage}
+      />
+    </>
   );
 }
 

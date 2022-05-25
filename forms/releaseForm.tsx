@@ -6,10 +6,10 @@ import ImageInput from "../components/image-input";
 interface ReleaseFormProps {
   onSubmit: SubmitHandler<Inputs>;
   setImage: (image: File) => void;
-  image?: File;
+  image: File | null | undefined;
 }
 
-type Inputs = {
+export type Inputs = {
   name: string;
   image: File;
   photographer: string;
