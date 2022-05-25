@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../components";
 import ImageInput from "../components/image-input";
+import PageHeader from "../components/page-header";
 
 interface ReleaseFormProps {
   onSubmit: SubmitHandler<Inputs>;
@@ -78,18 +78,7 @@ export default function ReleaseForm({
     <form onSubmit={handleSubmit(onSubmit)}>
       {image ? (
         <div className="mx-auto max-w-xl">
-          <div className="mb-12 flex justify-center">
-            <Image
-              src="/nftbrs-logo.jpg"
-              width={113}
-              height={68}
-              alt="NFT BRS logo"
-              className="invert"
-            />
-          </div>
-          <h1 className="mb-4 text-center font-display text-3xl font-bold text-zinc-200">
-            Mint your photo
-          </h1>
+          <PageHeader title="Mint your photo" />
 
           <div className="space-y-4">
             {fields.map((field, i) => (
