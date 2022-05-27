@@ -1,4 +1,3 @@
-import { useConnectWallet } from "@web3-onboard/react";
 import { ethers } from "ethers";
 import type { NextPage } from "next";
 import { useState } from "react";
@@ -14,6 +13,10 @@ const Home: NextPage = () => {
   async function createRelease(data: Data) {
     // Descontruct track name and identifier from form data
     const { name, photographer_wallet, mint_price, image } = data;
+
+    if (photographer_wallet && !ethers.utils.isAddress(photographer_wallet)) {
+      return toast.error("Invalid ethereum address");
+    }
 
     setImage(image);
 
@@ -50,8 +53,7 @@ const Home: NextPage = () => {
           loading: `minting NFT...`,
           success: "Photo minted! 🚀",
           error: "Error minting NFT, please try again...",
-        },
-        { position: "bottom-right" }
+        }
       );
     } catch (e) {
       console.log({ e });
