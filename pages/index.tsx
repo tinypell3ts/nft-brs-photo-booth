@@ -9,10 +9,10 @@ import { buildMetadata, uploadToIPFS } from "../helpers";
 
 const Home: NextPage = () => {
   const [image, setImage] = useState<File | null>();
-  const [transactionHash, setTransactionHash] = useState<string | null>();
+  const [transactionSuccess, setTransactionSuccess] = useState<boolean>(false);
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(true);
   const [isCreatingRelease, setIsCreatingRelease] = useState(false);
-  const isComplete = !!transactionHash && image;
+  const isComplete = !!transactionSuccess && image;
 
   async function createRelease(data: Data) {
     try {
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
       await toast.promise(
         fetch(`/api/mint-background?${params}`)
           .then((res) => res.json())
-          .then((res) => setTransactionHash(res.instance.transactionHash)),
+          .then((res) => setTransactionSuccess(true)),
         {
           loading: `minting NFT...`,
           success: "Photo minted! 🚀",
@@ -70,18 +70,14 @@ const Home: NextPage = () => {
   }
 
   function reset() {
-    setTransactionHash(null);
+    setTransactionSuccess(false);
     setImage(null);
   }
 
   return (
     <>
       {isComplete ? (
-        <Complete
-          transactionHash={transactionHash}
-          image={image}
-          onReset={reset}
-        />
+        <Complete image={image} onReset={reset} />
       ) : (
         <>
           <Welcome onClose={() => setIsWelcomeOpen(false)} />

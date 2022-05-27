@@ -58,7 +58,7 @@ export default function ReleaseForm({
     {
       id: "mint_price",
       label: "Mint price (in MATIC)",
-      placeholder: "",
+      placeholder: "0.01",
       type: "number",
       step: "0.001",
       required: true,
