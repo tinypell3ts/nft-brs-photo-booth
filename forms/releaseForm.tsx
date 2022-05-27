@@ -2,19 +2,27 @@ import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "../components";
 import ImageInput from "../components/image-input";
+import PageHeader from "../components/page-header";
 
 interface ReleaseFormProps {
   onSubmit: SubmitHandler<Inputs>;
   setImage: (image: File) => void;
+  image: File | null | undefined;
+  isLoading: boolean;
 }
 
-type Inputs = {
+export type Inputs = {
   name: string;
   image: File;
   photographer: string;
 };
 
-export default function ReleaseForm({ onSubmit, setImage }: ReleaseFormProps) {
+export default function ReleaseForm({
+  onSubmit,
+  setImage,
+  image,
+  isLoading,
+}: ReleaseFormProps) {
   const {
     register,
     handleSubmit,
@@ -50,7 +58,7 @@ export default function ReleaseForm({ onSubmit, setImage }: ReleaseFormProps) {
     {
       id: "mint_price",
       label: "Mint price (in MATIC)",
-      placeholder: "",
+      placeholder: "0.01",
       type: "number",
       step: "0.001",
       required: true,
@@ -66,49 +74,56 @@ export default function ReleaseForm({ onSubmit, setImage }: ReleaseFormProps) {
       label: "Add wallet address (optional)",
       type: "text",
     },
-    {
-      id: "image",
-      label: "Upload Photo",
-      type: "file",
-      accept: ".png,.jpg,.jpeg",
-      required: true,
-    },
   ];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mx-auto flex max-w-2xl flex-col space-y-2">
-        {fields.map((field, i) => (
-          <div className="flex flex-col" key={i}>
-            <label>{field.label}</label>
-            {field.type === "file" ? (
-              <ImageInput
-                {...register(field.id, { required: field.required })}
-                setValue={setValue}
-                trigger={trigger}
-              />
-            ) : (
-              <input
-                className={field.type === "file" ? undefined : "border-2"}
-                accept={field.accept}
-                type={field.type}
-                placeholder={field.placeholder}
-                step={field.step}
-                {...register(field.id, { required: field.required })}
-              />
-            )}
-            {errors[field.id] && (
-              <span className="font-semibold text-red-500">
-                {field.id} is required
-              </span>
-            )}
-          </div>
-        ))}
+      {image ? (
+        <div className="mx-auto max-w-xl">
+          <PageHeader title="Mint your photo" />
 
-        <div className="mx-auto">
-          <Button>Create NFT</Button>
+          <div className="space-y-4">
+            {fields.map((field, i) => (
+              <div className="flex flex-col" key={i}>
+                <label className="mb-2 block font-mono text-zinc-400">
+                  {field.label}
+                </label>
+                <input
+                  className="bg-zinc-800 py-2 px-4 font-mono text-zinc-400"
+                  accept={field.accept}
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  step={field.step}
+                  {...register(field.id, { required: field.required })}
+                />
+                {errors[field.id] && (
+                  <span className="mt-2 block font-mono font-semibold text-red-500">
+                    {field.id} is required
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 mb-12 flex flex-col items-center justify-center">
+            <p className="mb-4 text-center text-sm text-zinc-400">
+              👋 By creating an NFT you are agreeing to immutably upload your
+              photo to IPFS
+            </p>
+            <Button isLoading={isLoading} type="submit">
+              Create NFT
+            </Button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <>
+          <ImageInput
+            {...register("image", { required: true })}
+            setValue={setValue}
+            trigger={trigger}
+          />
+        </>
+      )}
     </form>
   );
 }

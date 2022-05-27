@@ -6,7 +6,11 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        display: ["Rubik Mono One"],
+      },
+    },
   },
   plugins: [require("@tailwindcss/aspect-ratio")],
 };
