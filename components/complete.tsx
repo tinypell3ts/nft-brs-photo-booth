@@ -1,8 +1,8 @@
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Confetti from "react-confetti";
 import Button from "./button";
 import PageHeader from "./page-header";
-import Confetti from "react-confetti";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 
 interface Props {
   image: File;
@@ -27,7 +27,7 @@ function Complete({ image, onReset }: Props) {
       </div>
 
       <div className="flex flex-col items-center justify-center space-y-4 text-center">
-        <Button onClick={() => router.push("/photos")}>View gallery</Button>
+        <Button onClick={() => router.push("/market")}>View gallery</Button>
         <Button onClick={onReset}>Create New NFT</Button>
       </div>
       <Confetti width={width ?? 0} height={height ?? 0} />
