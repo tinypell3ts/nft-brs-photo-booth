@@ -1,8 +1,11 @@
 import { useConnectWallet } from "@web3-onboard/react";
 import { ethers } from "ethers";
+import Image from "next/image";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import OpenFormat from "../abis/OpenFormat.json";
 import { Button, Header } from "../components";
+import Footer from "../components/footer";
 import { useGetPhotos } from "../queries";
 
 export default function Photos() {
@@ -59,7 +62,7 @@ export default function Photos() {
         </div>
         <div className="mt-4 flex items-center justify-between">
           <div>
-            <h3 className="text-sm text-gray-700">
+            <h3 className="font-display text-sm text-white">
               <a href={token.href}>
                 <span aria-hidden="true" className="absolute inset-0" />
                 {name}
@@ -129,19 +132,48 @@ export default function Photos() {
   }
 
   return (
-    <div className="bg-white">
-      <div className="mx-auto p-4 sm:px-6 lg:px-8">
-        <Header />
-        <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
-          Photos from NFT:BRS
-        </h2>
+    <>
+      <div className="bg-black">
+        <div className="mx-auto p-4 sm:px-6 lg:px-8">
+          <Header />
+          <Image
+            src="/nftbrs-logo.jpg"
+            width={113}
+            height={68}
+            alt="NFT BRS logo"
+            className="invert"
+          />
 
-        <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-          {data.tokens.map((token) => (
-            <PhotoItem token={token} />
-          ))}
+          <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+            {data.tokens.map((token) => (
+              <PhotoItem token={token} />
+            ))}
+          </div>
         </div>
       </div>
+      <Qr />
+      <Footer />
+    </>
+  );
+}
+
+function Qr() {
+  const [scale, setScale] = useState(5);
+
+  return (
+    <div className="fixed bottom-[60px] right-0 z-50 p-6">
+      <img
+        onClick={() => setScale((s) => s + 1)}
+        src="/qr.png"
+        alt="SCAN ME"
+        width={100}
+        height={100}
+        className="shadow-md"
+        style={{
+          transform: `scale(${scale * 0.2})`,
+          transformOrigin: "100% 100%",
+        }}
+      />
     </div>
   );
 }

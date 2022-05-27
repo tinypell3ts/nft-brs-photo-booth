@@ -4,6 +4,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Capture from "../components/capture";
 import Complete from "../components/complete";
+import Footer from "../components/footer";
 import Welcome from "../components/welcome";
 import { buildMetadata, uploadToIPFS } from "../helpers";
 
@@ -92,6 +93,8 @@ const Home: NextPage = () => {
           )}
         </>
       )}
+
+      {(image || isWelcomeOpen || isComplete) && <Footer />}
     </>
   );
 };

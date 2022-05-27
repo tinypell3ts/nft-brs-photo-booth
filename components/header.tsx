@@ -2,7 +2,7 @@ import { ExternalLinkIcon } from "@heroicons/react/outline";
 import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 import { ethers } from "ethers";
 import useTranslation from "next-translate/useTranslation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../components";
 import { BLOCK_EXPLORER_URL, switchChain } from "../helpers";
 
@@ -30,9 +30,24 @@ export default function Header() {
     }
   }
 
+  const [backgroundClass, setBackgroundClass] = useState("opacity-0");
+  useEffect(() => {
+    function listener() {
+      if (window.scrollY >= 50) {
+        setBackgroundClass("opacity-70");
+      } else {
+        setBackgroundClass("opacity-0");
+      }
+    }
+
+    document.addEventListener("scroll", listener);
+
+    return () => document.removeEventListener("scroll", listener);
+  }, []);
+
   return (
-    <header className="fixed right-8 w-full">
-      <div className="flex items-center justify-end">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full p-4">
+      <div className="relative z-10 flex items-center justify-end">
         {wallet?.accounts[0].address ? (
           <>
             <a
@@ -56,6 +71,9 @@ export default function Header() {
           <Button onClick={handleConnect}>{t("wallet.connect_button")}</Button>
         )}
       </div>
+      <div
+        className={`absolute inset-0 bg-black transition-opacity ${backgroundClass}`}
+      />
     </header>
   );
 }

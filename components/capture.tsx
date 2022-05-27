@@ -10,7 +10,7 @@ interface Props {
 
 function Capture({ createRelease, image, setImage, isLoading }: Props) {
   return (
-    <div className="p-6">
+    <div className="mb-12 p-6">
       <ReleaseForm
         onSubmit={(data) => createRelease(data)}
         image={image}
