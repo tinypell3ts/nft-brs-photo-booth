@@ -50,7 +50,7 @@ const Home: NextPage = () => {
       });
 
       await toast.promise(
-        fetch(`/api/mint?${params}`)
+        fetch(`/api/mint-background?${params}`)
           .then((res) => res.json())
           .then((res) => setTransactionHash(res.instance.transactionHash)),
         {
