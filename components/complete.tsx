@@ -10,7 +10,6 @@ interface Props {
 
 function Complete({ image, onReset }: Props) {
   const { width, height } = useWindowSize();
-  console.log({ width, height });
 
   return (
     <div className="mb-20 p-6">

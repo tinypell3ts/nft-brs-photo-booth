@@ -13,8 +13,7 @@ const Home: NextPage = () => {
   const [transactionSuccess, setTransactionSuccess] = useState<boolean>(false);
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(true);
   const [isCreatingRelease, setIsCreatingRelease] = useState(false);
-  const isComplete = true;
-  // const isComplete = !!transactionSuccess && image;
+  const isComplete = !!transactionSuccess && image;
 
   async function createRelease(data: Data) {
     try {
