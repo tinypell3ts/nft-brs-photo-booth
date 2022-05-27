@@ -105,7 +105,11 @@ export default function ReleaseForm({
             ))}
           </div>
 
-          <div className="mt-8 mb-12 flex justify-center">
+          <div className="mt-8 mb-12 flex flex-col items-center justify-center">
+            <p className="mb-4 text-center text-sm text-zinc-400">
+              👋 By creating an NFT you are agreeing to immutably upload your
+              photo to IPFS
+            </p>
             <Button isLoading={isLoading} type="submit">
               Create NFT
             </Button>

@@ -51,7 +51,7 @@ const Home: NextPage = () => {
       });
 
       await toast.promise(
-        fetch(`/api/mint-background?${params}`)
+        fetch(`https://nft-brs-api.herokuapp.com/api/mint?${params}`)
           .then((res) => res.json())
           .then((res) => setTransactionSuccess(true)),
         {
