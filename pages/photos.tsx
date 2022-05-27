@@ -1,7 +1,7 @@
 import { useConnectWallet } from "@web3-onboard/react";
 import { ethers } from "ethers";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import OpenFormat from "../abis/OpenFormat.json";
 import { Button, Header } from "../components";
@@ -159,6 +159,12 @@ export default function Photos() {
 
 function Qr() {
   const [scale, setScale] = useState(5);
+
+  useEffect(() => {
+    if (scale >= 25) {
+      alert("Do you need some glasses?");
+    }
+  }, [scale]);
 
   return (
     <div className="fixed bottom-[60px] right-0 z-50 p-6">
