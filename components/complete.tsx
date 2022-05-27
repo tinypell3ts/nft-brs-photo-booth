@@ -2,6 +2,7 @@ import Button from "./button";
 import PageHeader from "./page-header";
 import Confetti from "react-confetti";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 interface Props {
   image: File;
@@ -10,6 +11,7 @@ interface Props {
 
 function Complete({ image, onReset }: Props) {
   const { width, height } = useWindowSize();
+  const router = useRouter();
 
   return (
     <div className="mb-20 p-6">
@@ -24,11 +26,9 @@ function Complete({ image, onReset }: Props) {
         )}
       </div>
 
-      <div className="flex flex-col justify-center text-center">
-        <p>Head to the Open Format playroom to see your NFT photo.</p>
-        <div className="mt-4 flex justify-center">
-          <Button onClick={onReset}>Create New NFT</Button>
-        </div>
+      <div className="flex flex-col items-center justify-center space-y-4 text-center">
+        <Button onClick={() => router.push("/photos")}>View gallery</Button>
+        <Button onClick={onReset}>Create New NFT</Button>
       </div>
       <Confetti width={width ?? 0} height={height ?? 0} />
     </div>

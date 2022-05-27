@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Capture from "../components/capture";
 import Complete from "../components/complete";
@@ -14,6 +14,12 @@ const Home: NextPage = () => {
   const [isWelcomeOpen, setIsWelcomeOpen] = useState(true);
   const [isCreatingRelease, setIsCreatingRelease] = useState(false);
   const isComplete = !!transactionSuccess && image;
+
+  useEffect(() => {
+    if (isComplete) {
+      window.scrollTo({ top: 0 });
+    }
+  }, [isComplete]);
 
   async function createRelease(data: Data) {
     try {
@@ -30,16 +36,12 @@ const Home: NextPage = () => {
       // Pass through the form data to build up the metadata object
       const metadata: Metadata = buildMetadata(data);
 
-      console.log({ metadata });
-
       // Upload the metadata object returned from the buildMetadata function to IPFS
       const ipfsData = await toast.promise(uploadToIPFS(metadata), {
         loading: "Uploading photo...",
         success: "Photo successfully uploaded",
         error: "Error uploading photo",
       });
-
-      console.log({ ipfsData });
 
       // If the user has connected their wallet, continue.
 
