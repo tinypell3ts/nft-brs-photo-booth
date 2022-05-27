@@ -1,6 +1,7 @@
 import Button from "./button";
 import PageHeader from "./page-header";
 import Confetti from "react-confetti";
+import { useEffect, useState } from "react";
 
 interface Props {
   image: File;
@@ -8,6 +9,9 @@ interface Props {
 }
 
 function Complete({ image, onReset }: Props) {
+  const { width, height } = useWindowSize();
+  console.log({ width, height });
+
   return (
     <div className="mb-20 p-6">
       <PageHeader title="Minted!" />
@@ -27,9 +31,42 @@ function Complete({ image, onReset }: Props) {
           <Button onClick={onReset}>Create New NFT</Button>
         </div>
       </div>
-      <Confetti />
+      <Confetti width={width ?? 0} height={height ?? 0} />
     </div>
   );
+}
+
+function useWindowSize() {
+  // Initialize state with undefined width/height so server and client renders match
+  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+
+  useEffect(() => {
+    // only execute all the code below in client side
+    if (typeof window !== "undefined") {
+      // Handler to call on window resize
+      function handleResize() {
+        // Set window width/height to state
+        setWindowSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }
+
+      // Add event listener
+      window.addEventListener("resize", handleResize);
+
+      // Call handler right away so state gets updated with initial window size
+      handleResize();
+
+      // Remove event listener on cleanup
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, []); // Empty array ensures that effect is only run on mount
+  return windowSize;
 }
 
 export default Complete;
