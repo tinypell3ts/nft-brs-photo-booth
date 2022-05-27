@@ -20,6 +20,9 @@ const Home: NextPage = () => {
 
       // Descontruct track name and identifier from form data
       const { name, photographer_wallet, mint_price, image } = data;
+      if (photographer_wallet && !ethers.utils.isAddress(photographer_wallet)) {
+        return toast.error("Invalid ethereum address");
+      }
 
       setImage(image);
 
@@ -54,8 +57,7 @@ const Home: NextPage = () => {
           loading: `minting NFT...`,
           success: "Photo minted! 🚀",
           error: "Error minting NFT, please try again...",
-        },
-        { position: "bottom-right" }
+        }
       );
     } catch (error) {
       const message =
