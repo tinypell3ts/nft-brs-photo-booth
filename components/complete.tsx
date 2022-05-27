@@ -1,5 +1,6 @@
 import Button from "./button";
 import PageHeader from "./page-header";
+import Confetti from "react-confetti";
 
 interface Props {
   image: File;
@@ -26,6 +27,7 @@ function Complete({ image, onReset }: Props) {
           <Button onClick={onReset}>Create New NFT</Button>
         </div>
       </div>
+      <Confetti />
     </div>
   );
 }
